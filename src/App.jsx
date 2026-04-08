@@ -1057,11 +1057,6 @@ export default function App() {
   const handleGenerateExamplesForCurrentWord = async () => {
     if (!activeSet || !currentWord) return;
 
-    if (activeSet.language === 'ko' && !hasAiExampleGenerator()) {
-      setSyncState('Thêm VITE_GEMINI_API_KEY vào .env để tạo ví dụ tiếng Hàn bằng AI');
-      return;
-    }
-
     setExampleGeneration({
       currentWordId: currentWord.id,
       currentWordTerm: currentWord.term,
@@ -1082,12 +1077,7 @@ export default function App() {
       setIsMeaningVisible(true);
       setSyncState(`Đã tạo ví dụ cho từ "${currentWord.term}"`);
     } catch (error) {
-      const message = String(error?.message || '');
-      setSyncState(
-        message.startsWith('gemini_')
-          ? `Gemini đang lỗi (${message.replace('gemini_', '')}). Kiểm tra key, model hoặc bật Gemini API cho project này.`
-          : 'Không thể tạo ví dụ bằng AI cho từ hiện tại.',
-      );
+      setSyncState(`Không thể tạo ví dụ cho từ hiện tại: ${String(error?.message || 'Lỗi không xác định')}`);
     } finally {
       setExampleGeneration({ currentWordId: null, currentWordTerm: '', isBulkRunning: false, completed: 0, total: 0 });
     }
@@ -1095,11 +1085,6 @@ export default function App() {
 
   const handleGenerateExamplesForSet = async () => {
     if (!activeSet) return;
-
-    if (activeSet.language === 'ko' && !hasAiExampleGenerator()) {
-      setSyncState('Thêm VITE_GEMINI_API_KEY vào .env để tạo ví dụ tiếng Hàn bằng AI');
-      return;
-    }
 
     const priorityIds = new Set(words.map((word) => word.id));
     const targets = [...activeSet.words]
@@ -1145,12 +1130,7 @@ export default function App() {
 
       setSyncState(`Đã tạo ví dụ cho ${targets.length} từ trong bộ hiện tại`);
     } catch (error) {
-      const message = String(error?.message || '');
-      setSyncState(
-        message.startsWith('gemini_')
-          ? `Gemini đang lỗi (${message.replace('gemini_', '')}). Kiểm tra key, model hoặc bật Gemini API cho project này.`
-          : 'Không thể tạo ví dụ hàng loạt bằng AI.',
-      );
+      setSyncState(`Không thể tạo ví dụ hàng loạt: ${String(error?.message || 'Lỗi không xác định')}`);
     } finally {
       setExampleGeneration({ currentWordId: null, currentWordTerm: '', isBulkRunning: false, completed: 0, total: 0 });
     }
@@ -1303,17 +1283,23 @@ export default function App() {
     }
   };
 
-  const handleDeleteCustomSet = async () => {
-    if (!activeSet?.isCustom) return;
-    const nextSet = sets.find((set) => set.id !== activeSet.id && set.language === langFilter) || sets.find((set) => set.id !== activeSet.id) || null;
-    setSets((prev) => prev.filter((set) => set.id !== activeSet.id));
+  const handleDeleteCustomSet = async (setId = activeSet?.id) => {
+    const targetSet = sets.find((set) => set.id === setId);
+    if (!targetSet?.isCustom) return;
+
+    const nextSet =
+      sets.find((set) => set.id !== targetSet.id && set.language === langFilter) ||
+      sets.find((set) => set.id !== targetSet.id) ||
+      null;
+
+    setSets((prev) => prev.filter((set) => set.id !== targetSet.id));
     if (nextSet) {
       setActiveSetId(nextSet.id);
       resetStudyProgress();
     }
     if (user) {
       try {
-        await deleteUserSet(activeSet.id, user.id);
+        await deleteUserSet(targetSet.id, user.id);
         setSyncState('Đã xóa bộ từ cá nhân');
       } catch (error) {
         console.error(error);
@@ -1349,6 +1335,7 @@ export default function App() {
         onSelectSet={handleSelectSet}
         onFileUpload={handleFileUpload}
         onDeleteCustomSet={handleDeleteCustomSet}
+        onOpenCreateSet={() => setShowCreateSetModal(true)}
       />
 
       <div className="flex min-h-screen flex-col transition-all duration-300 lg:pl-80">

@@ -11,7 +11,7 @@ function AccountMenu({ profile, user, syncState, onOpenStats, onOpenSettings, on
   return (
     <div className="animate-in slide-in-from-top-2 absolute right-0 z-50 mt-2 w-72 fade-in duration-200">
       <div className="card-pro rounded-2xl p-4 shadow-xl">
-        <p className="mb-3 px-2 text-[10px] font-black uppercase tracking-widest text-slate-400">Tài khoản</p>
+        <p className="mb-3 px-2 text-[10px] font-black text-slate-400">{'Tài khoản'}</p>
 
         <div className="surface-muted mb-4 overflow-hidden rounded-xl px-3 py-3">
           <p className="truncate text-sm font-bold text-slate-700 dark:text-slate-100">{profile?.display_name || user.email}</p>
@@ -25,14 +25,14 @@ function AccountMenu({ profile, user, syncState, onOpenStats, onOpenSettings, on
             className="surface-muted flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-slate-600 transition hover:bg-slate-200 dark:text-slate-200 dark:hover:bg-slate-700/80"
           >
             <Settings2 size={16} />
-            Cài đặt hồ sơ
+            {'Cài đặt hồ sơ'}
           </button>
 
           <button
             onClick={onOpenStats}
             className="surface-muted rounded-xl px-4 py-3 text-sm font-bold text-slate-600 transition hover:bg-slate-200 dark:text-slate-200 dark:hover:bg-slate-700/80"
           >
-            Mở thống kê
+            {'Mở thống kê'}
           </button>
 
           <button
@@ -40,7 +40,7 @@ function AccountMenu({ profile, user, syncState, onOpenStats, onOpenSettings, on
             className="surface-muted flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-slate-600 transition hover:bg-red-50 hover:text-red-500 dark:text-slate-200 dark:hover:bg-red-950/40 dark:hover:text-red-300"
           >
             <LogOut size={16} />
-            Đăng xuất
+            {'Đăng xuất'}
           </button>
         </div>
       </div>
@@ -56,9 +56,9 @@ function ModeSheet({ tabs, activeTab, onSelect, onClose }) {
         onClick={(event) => event.stopPropagation()}
       >
         <div className="mb-3 flex items-center justify-between px-2">
-          <div className="text-xs font-black uppercase tracking-[0.22em] text-slate-400">Chế độ học</div>
+          <div className="text-xs font-black text-slate-400">{'Chế độ học'}</div>
           <button onClick={onClose} className="control-chip rounded-full px-3 py-1 text-xs font-bold">
-            Đóng
+            {'Đóng'}
           </button>
         </div>
 
@@ -117,7 +117,7 @@ export default function AppTopBar({
             <button
               onClick={onOpenSidebar}
               className="control-chip rounded-xl p-2 text-slate-600 dark:text-slate-200 sm:p-2.5 lg:hidden"
-              aria-label="Mở thanh bên"
+              aria-label={'Mở thanh bên'}
             >
               <Menu size={20} />
             </button>
@@ -128,7 +128,7 @@ export default function AppTopBar({
                 type="text"
                 value={searchTerm}
                 onChange={(event) => onSearchChange(event.target.value)}
-                placeholder="Tìm theo từ, nghĩa, từ loại, trạng thái..."
+                placeholder={'Tìm theo từ, nghĩa, từ loại, trạng thái...'}
                 className="w-56 bg-transparent text-xs font-medium outline-none"
               />
             </div>
@@ -139,7 +139,7 @@ export default function AppTopBar({
           </div>
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-4">
-            <div className="hidden max-w-[280px] truncate rounded-full bg-primary/10 px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-primary md:flex">
+            <div className="hidden max-w-[280px] truncate rounded-full bg-primary/10 px-4 py-1.5 text-[10px] font-black text-primary md:flex">
               {activeSetTitle || 'Bộ từ vựng'}
             </div>
 
@@ -151,7 +151,7 @@ export default function AppTopBar({
             <button
               onClick={() => setMobileSearchOpen((value) => !value)}
               className="control-chip flex h-9 w-9 items-center justify-center rounded-xl text-slate-600 dark:text-slate-200 sm:hidden"
-              aria-label="Tìm kiếm"
+              aria-label={'Tìm kiếm'}
             >
               <Search size={18} />
             </button>
@@ -185,7 +185,7 @@ export default function AppTopBar({
                 ) : (
                   <>
                     <LogIn size={18} />
-                    <span className="hidden text-xs font-bold uppercase tracking-wider sm:inline">Đăng nhập</span>
+                    <span className="hidden text-xs font-bold sm:inline">{'Đăng nhập'}</span>
                   </>
                 )}
               </button>
@@ -219,7 +219,7 @@ export default function AppTopBar({
                 className="control-chip flex min-h-11 items-center justify-center gap-2 rounded-full px-4 py-2 text-[12px] font-bold"
               >
                 <LayoutGrid size={15} />
-                Chế độ
+                {'Chế độ'}
               </button>
             </div>
           </div>
@@ -231,7 +231,7 @@ export default function AppTopBar({
                 type="text"
                 value={searchTerm}
                 onChange={(event) => onSearchChange(event.target.value)}
-                placeholder="Tìm theo từ, nghĩa, từ loại..."
+                placeholder={'Tìm theo từ, nghĩa, từ loại...'}
                 className="w-full bg-transparent text-sm font-medium outline-none"
               />
             </div>
